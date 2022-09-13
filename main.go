@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"strings"
+)
 
 func main() {
 	conferenceName := "Go Conference"
@@ -11,30 +14,47 @@ func main() {
 	fmt.Printf("We have total of %v tickets and %v all still available.\n", conferenceTickets, remainingTickets)
 	fmt.Println("Get your tickets here to attend")
 
-	var firstName string
-	var lastName string
-	var email string
-	var userTickets int
+	bookings := []string{} //arrays in go have fixed size (size = elements that can be stored), and only with one data type
 
-	fmt.Println("Enter your first name:")
-	fmt.Scan(&firstName)
+	for {
+		var firstName string
+		var lastName string
+		var email string
+		var userTickets int
 
-	fmt.Println("Enter your last name:")
-	fmt.Scan(&lastName)
+		fmt.Println("Enter your first name:")
+		fmt.Scan(&firstName)
 
-	fmt.Println("Enter your email:")
-	fmt.Scan(&email)
+		fmt.Println("Enter your last name:")
+		fmt.Scan(&lastName)
 
-	fmt.Println("Enter numbers of tickets:")
-	fmt.Scan(&userTickets)
-	// & = pointer to the memory address
-	// it'ss not possible to assign user's value without the pointer
+		fmt.Println("Enter your email:")
+		fmt.Scan(&email)
 
-	remainingTickets -= userTickets
+		fmt.Println("Enter numbers of tickets:")
+		fmt.Scan(&userTickets)
+		// & = pointer to the memory address
+		// it'ss not possible to assign user's value without the pointer
 
-	userTickets = 2
+		remainingTickets -= userTickets
+		// Slice
+		bookings = append(bookings, firstName+" "+lastName)
 
-	fmt.Printf("Thank you %v %v for booking %v tikcets. You will receive a confirmation email at %v.\n", firstName, lastName, userTickets, email)
-	fmt.Printf("%v tickets remaining for %v.\n", remainingTickets, conferenceName)
+		fmt.Printf("The whole slice: %v\n", bookings)
+		fmt.Printf("The first value: %v\n", bookings[0])
+		fmt.Printf("Slice type: %T\n", bookings)
+		fmt.Printf("Slice length: %v\n", len(bookings))
 
+		fmt.Printf("Thank you %v %v for booking %v tickets. You will receive a confirmation email at %v.\n", firstName, lastName, userTickets, email)
+		fmt.Printf("%v tickets remaining for %v.\n", remainingTickets, conferenceName)
+
+		firstNames := []string{}
+		for _, booking := range bookings {
+			var names = strings.Fields(booking)
+			firstNames = append(firstNames, names[0])
+		}
+		// within this loop, one by one, first names were addingto the firstNames slice. (_ = index (ignored) expression)
+
+		fmt.Printf("The first names of bookings are %v\n", firstNames)
+	}
 }
