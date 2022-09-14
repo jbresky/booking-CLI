@@ -36,25 +36,31 @@ func main() {
 		// & = pointer to the memory address
 		// it'ss not possible to assign user's value without the pointer
 
-		remainingTickets -= userTickets
-		// Slice
-		bookings = append(bookings, firstName+" "+lastName)
+		if userTickets <= remainingTickets {
+			remainingTickets -= userTickets
+			// Slice
+			bookings = append(bookings, firstName+" "+lastName)
 
-		fmt.Printf("The whole slice: %v\n", bookings)
-		fmt.Printf("The first value: %v\n", bookings[0])
-		fmt.Printf("Slice type: %T\n", bookings)
-		fmt.Printf("Slice length: %v\n", len(bookings))
+			fmt.Printf("Thank you %v %v for booking %v tickets. You will receive a confirmation email at %v.\n", firstName, lastName, userTickets, email)
+			fmt.Printf("%v tickets remaining for %v.\n", remainingTickets, conferenceName)
 
-		fmt.Printf("Thank you %v %v for booking %v tickets. You will receive a confirmation email at %v.\n", firstName, lastName, userTickets, email)
-		fmt.Printf("%v tickets remaining for %v.\n", remainingTickets, conferenceName)
+			firstNames := []string{}
+			for _, booking := range bookings {
+				var names = strings.Fields(booking)
+				firstNames = append(firstNames, names[0])
+			}
+			// within this loop, one by one, first names were addingto the firstNames slice. (_ = index (ignored) expression)
 
-		firstNames := []string{}
-		for _, booking := range bookings {
-			var names = strings.Fields(booking)
-			firstNames = append(firstNames, names[0])
+			fmt.Printf("The first names of bookings are %v\n", firstNames)
+
+			if remainingTickets == 0 {
+				fmt.Println("Our conference is booked out, come back next year.")
+			}
+
+		} else {
+			fmt.Printf("We don't have %v tickets available, just %v remaining\n", userTickets, remainingTickets)
+
 		}
-		// within this loop, one by one, first names were addingto the firstNames slice. (_ = index (ignored) expression)
 
-		fmt.Printf("The first names of bookings are %v\n", firstNames)
 	}
 }
