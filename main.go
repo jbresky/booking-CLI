@@ -36,7 +36,11 @@ func main() {
 		// & = pointer to the memory address
 		// it'ss not possible to assign user's value without the pointer
 
-		if userTickets <= remainingTickets {
+		isValidName := len(firstName) >= 2 && len(lastName) >= 2
+		isValidEmail := strings.Contains(email, "@")
+		isValidTicketsNumber := userTickets > 0 && userTickets <= remainingTickets
+
+		if isValidTicketsNumber && isValidName && isValidEmail {
 			remainingTickets -= userTickets
 			// Slice
 			bookings = append(bookings, firstName+" "+lastName)
@@ -58,8 +62,15 @@ func main() {
 			}
 
 		} else {
-			fmt.Printf("We don't have %v tickets available, just %v remaining\n", userTickets, remainingTickets)
-
+			if !isValidName {
+				fmt.Println("first name or last name you entered is too short")
+			}
+			if !isValidEmail {
+				fmt.Println("please enter a valid email")
+			}
+			if !isValidTicketsNumber {
+				fmt.Printf("invalid number of tickets, we have %v reamining \n", remainingTickets)
+			}
 		}
 
 	}
