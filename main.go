@@ -5,24 +5,27 @@ import (
 	"strings"
 )
 
-func main() {
-	conferenceName := "Go Conference"
-	const conferenceTickets = 50
-	remainingTickets := 50
-	bookings := []string{} //arrays in go have fixed size (size = elements that can be stored), and only with one data type
+var conferenceName = "Go Conference"
 
-	greetUsers(conferenceName, conferenceTickets, remainingTickets)
+const conferenceTickets = 50
+
+var remainingTickets = 50
+var bookings = []string{} //arrays in go have fixed size (size = elements that can be stored), and only with one data type
+
+func main() {
+
+	greetUsers()
 
 	for {
 
 		firstName, lastName, email, userTickets := getUserInput()
-		isValidName, isValidEmail, isValidTicketsNumber := validateUserInput(firstName, lastName, email, userTickets, remainingTickets)
+		isValidName, isValidEmail, isValidTicketsNumber := validateUserInput(firstName, lastName, email, userTickets)
 
 		if isValidTicketsNumber && isValidName && isValidEmail {
 
-			bookTicket(remainingTickets, userTickets, bookings, firstName, lastName, email, conferenceName)
+			bookTicket(userTickets, firstName, lastName, email)
 
-			firstNames := getFirstNames(bookings)
+			firstNames := getFirstNames()
 			fmt.Printf("The first names of bookings are %v\n", firstNames)
 
 			if remainingTickets == 0 {
@@ -44,13 +47,13 @@ func main() {
 	}
 }
 
-func greetUsers(confName string, tickets uint, remainingTickets int) {
-	fmt.Printf("Welcome to %v booking application\n", confName)
-	fmt.Printf("We have total of %v tickets and %v all still available.\n", tickets, remainingTickets)
+func greetUsers() {
+	fmt.Printf("Welcome to %v booking application\n", conferenceName)
+	fmt.Printf("We have total of %v tickets and %v all still available.\n", conferenceTickets, remainingTickets)
 	fmt.Println("Get your tickets here to attend")
 }
 
-func getFirstNames(bookings []string) []string {
+func getFirstNames() []string {
 	firstNames := []string{}
 	for _, booking := range bookings {
 		var names = strings.Fields(booking)
@@ -59,7 +62,7 @@ func getFirstNames(bookings []string) []string {
 	return firstNames
 }
 
-func validateUserInput(firstName string, lastName string, email string, userTickets int, remainingTickets int) (bool, bool, bool) {
+func validateUserInput(firstName string, lastName string, email string, userTickets int) (bool, bool, bool) {
 	isValidName := len(firstName) >= 2 && len(lastName) >= 2
 	isValidEmail := strings.Contains(email, "@")
 	isValidTicketsNumber := userTickets > 0 && userTickets <= remainingTickets
@@ -85,12 +88,12 @@ func getUserInput() (string, string, string, int) {
 	fmt.Println("Enter numbers of tickets:")
 	fmt.Scan(&userTickets)
 	// & = pointer to the memory address
-	// it'ss not possible to assign user's value without the pointer
+	// it's not possible to assign user's value without the pointer
 
 	return firstName, lastName, email, userTickets
 }
 
-func bookTicket(remainingTickets int, userTickets int, bookings []string, firstName string, lastName string, email string, conferenceName string) {
+func bookTicket(userTickets int, firstName string, lastName string, email string) {
 	remainingTickets -= userTickets
 	// Slice
 	bookings = append(bookings, firstName+" "+lastName)
