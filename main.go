@@ -11,7 +11,7 @@ var conferenceName = "Go Conference"
 const conferenceTickets = 50
 
 var remainingTickets = 50
-var bookings = []string{} //arrays in go have fixed size (size = elements that can be stored), and only with one data type
+var bookings = []string{} //arrays in Go have fixed size (size = elements that can be stored), and only with one data type
 
 func main() {
 
@@ -88,6 +88,14 @@ func getUserInput() (string, string, string, int) {
 
 func bookTicket(userTickets int, firstName string, lastName string, email string) {
 	remainingTickets -= userTickets
+
+	//create a Map for a user
+	var userData = make(map[string]string)
+	userData["firstName"] = firstName
+	userData["lastName"] = lastName
+	userData["email"] = email
+	// strconv.FormatUint(uint(userTickets), 10)
+
 	// Slice
 	bookings = append(bookings, firstName+" "+lastName)
 
