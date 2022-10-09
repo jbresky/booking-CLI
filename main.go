@@ -3,7 +3,7 @@ package main
 import (
 	"booking-app/helper"
 	"fmt"
-	"strings"
+	// "strconv"
 )
 
 var conferenceName = "Go Conference"
@@ -11,7 +11,8 @@ var conferenceName = "Go Conference"
 const conferenceTickets = 50
 
 var remainingTickets = 50
-var bookings = []string{} //arrays in Go have fixed size (size = elements that can be stored), and only with one data type
+var bookings = make([]map[string]string, 0) // empty list of maps
+//arrays in Go have fixed size (size = elements that can be stored), and only with one data type
 
 func main() {
 
@@ -57,8 +58,7 @@ func greetUsers() {
 func getFirstNames() []string {
 	firstNames := []string{}
 	for _, booking := range bookings {
-		var names = strings.Fields(booking)
-		firstNames = append(firstNames, names[0])
+		firstNames = append(firstNames, booking["firstName"])
 	}
 	return firstNames
 }
@@ -90,14 +90,13 @@ func bookTicket(userTickets int, firstName string, lastName string, email string
 	remainingTickets -= userTickets
 
 	//create a Map for a user
-	var userData = make(map[string]string)
+	var userData = make(map[string]string) //empty map
 	userData["firstName"] = firstName
 	userData["lastName"] = lastName
 	userData["email"] = email
-	// strconv.FormatUint(uint(userTickets), 10)
+	// userData["numberOfTickets"] = strconv.FormatUint(uint(userTickets), 10)
 
-	// Slice
-	bookings = append(bookings, firstName+" "+lastName)
+	bookings = append(bookings, userData)
 
 	fmt.Printf("Thank you %v %v for booking %v tickets. You will receive a confirmation email at %v.\n", firstName, lastName, userTickets, email)
 	fmt.Printf("%v tickets remaining for %v.\n", remainingTickets, conferenceName)
